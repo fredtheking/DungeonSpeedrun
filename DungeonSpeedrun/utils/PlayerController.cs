@@ -13,7 +13,7 @@ public class PlayerController
   public float Sensitivity;
   public float Yaw;
   public float Pitch;
-  public bool CatchCursor = true;
+  public bool CatchCursor;
   private Camera3D camera;
   private RenderTexture2D mainRender;
 
@@ -33,25 +33,29 @@ public class PlayerController
     };
   }
 
-  public void Update()
+  public void CatchMouseTrigger(bool catto)
   {
-    if (CheckCollisionPointRec(GetMousePosition(), new(Config.SideSpace.X, Config.SideSpace.Y, mainRender.Texture.Width, mainRender.Texture.Height)) && IsMouseButtonPressed(MouseButton.Left))
-      CatchCursor = true;
-    if (IsKeyPressed(KeyboardKey.Escape))
-      CatchCursor = false;
-    
+    CatchCursor = catto;
     if (CatchCursor)
     {
-      if (!IsCursorHidden())
-        DisableCursor();
       HideCursor();
+      DisableCursor();
     }
     else
     {
-      if (IsCursorHidden())
-        EnableCursor();
       ShowCursor();
+      EnableCursor();
     }
+  }
+
+  public void Update()
+  {
+    Rectangle rect = new(Config.SideSpace.X, Config.SideSpace.Y, mainRender.Texture.Width, mainRender.Texture.Height);
+    
+    if (IsMouseButtonPressed(MouseButton.Left))
+      CatchMouseTrigger(true);
+    if (IsKeyPressed(KeyboardKey.Escape))
+      CatchMouseTrigger(false);
 
     if (!CatchCursor) return;
     
