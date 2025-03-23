@@ -1,5 +1,6 @@
 ﻿using System.Numerics;
 using DungeonSpeedrun;
+using DungeonSpeedrun.utils;
 using Raylib_cs;
 using rlImGui_cs;
 using static Raylib_cs.Raylib;
@@ -8,12 +9,13 @@ SetConfigFlags(ConfigFlags.ResizableWindow | ConfigFlags.VSyncHint);
 InitWindow((int)Config.Resolution.X, (int)Config.Resolution.Y, "Hello, Dungeon!");
 rlImGui.Setup();
 
-RenderTexture2D mainRender = LoadRenderTexture(1280, 720);
+RenderTexture2D mainRender = LoadRenderTexture((int)(Config.Resolution.X - Config.SideSpace.X * 2), (int)(Config.Resolution.Y - Config.SideSpace.Y * 2));
 
+WindowHandler.RedoRenderTexture(ref mainRender);
 while (!WindowShouldClose())
 { 
   // Process Update
-  UpdateProcess.Go(mainRender); 
+  UpdateProcess.Go(ref mainRender); 
   
   BeginDrawing();
   
@@ -27,13 +29,13 @@ while (!WindowShouldClose())
   
   // RenderTexture Render
   Rectangle windowRect = new(0, 0, mainRender.Texture.Width, -mainRender.Texture.Height);
-  DrawTextureRec(mainRender.Texture, windowRect, new Vector2(Config.SideSpace, 0), Color.White);
+  DrawTextureRec(mainRender.Texture, windowRect, new Vector2(Config.SideSpace.X, Config.SideSpace.Y), Color.White);
   
   // ImGui Render
   rlImGui.Begin();
   ClearBackground(Color.Black);
   
-  ImGuiWindow.Render(mainRender);
+  ImGuiWindow.Render();
   
   rlImGui.End();
   EndDrawing();
