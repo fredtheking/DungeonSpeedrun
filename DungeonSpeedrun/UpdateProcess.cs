@@ -6,9 +6,10 @@ namespace DungeonSpeedrun;
 
 public static class UpdateProcess
 {
-  public static void Go(ref RenderTexture2D mainRender)
+  public static void Go(ref RenderTexture2D mainRender, PlayerController player)
   {
     if (IsWindowResized())
       WindowHandler.RedoRenderTexture(ref mainRender);
+    player.Update();
   }
 }
