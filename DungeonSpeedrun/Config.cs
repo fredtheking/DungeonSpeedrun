@@ -4,5 +4,6 @@ namespace DungeonSpeedrun;
 
 public static class Config
 {
-  public static readonly Vector2 Resolution = new Vector2(1280, 720);
+  public static readonly Vector2 Resolution = new(1280, 720);
+  public static int SideSpace = 100;
 }

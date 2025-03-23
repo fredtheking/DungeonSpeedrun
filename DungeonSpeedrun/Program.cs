@@ -12,23 +12,30 @@ RenderTexture2D mainRender = LoadRenderTexture(1280, 720);
 
 while (!WindowShouldClose())
 { 
+  // Process Update
   UpdateProcess.Go(mainRender); 
   
   BeginDrawing();
-  rlImGui.Begin();
-  ClearBackground(Color.Black);
   
-  ImGuiWindow.Render(mainRender);
-  
-  rlImGui.End();
-  
+  // Draw Allocation
   BeginTextureMode(mainRender);
   ClearBackground(Color.DarkGray);
   
   RenderToTexture.Go(mainRender);
   
   EndTextureMode();
-  DrawTextureRec(mainRender.Texture, new(0, 0, mainRender.Texture.Width, -mainRender.Texture.Height), Vector2.Zero, Color.White);
+  
+  // RenderTexture Render
+  Rectangle windowRect = new(0, 0, mainRender.Texture.Width, -mainRender.Texture.Height);
+  DrawTextureRec(mainRender.Texture, windowRect, new Vector2(Config.SideSpace, 0), Color.White);
+  
+  // ImGui Render
+  rlImGui.Begin();
+  ClearBackground(Color.Black);
+  
+  ImGuiWindow.Render(mainRender);
+  
+  rlImGui.End();
   EndDrawing();
 }
 

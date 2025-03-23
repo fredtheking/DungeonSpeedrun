@@ -11,8 +11,9 @@ public static class UpdateProcess
     {
       UnloadRenderTexture(mainRender);
       Vector2 windowSize = new Vector2(GetRenderWidth(), GetRenderHeight());
-      Console.WriteLine($"new window size: {windowSize}");
-      mainRender = LoadRenderTexture((int)windowSize.X, (int)windowSize.Y);
+      Vector2 actualSize = windowSize with { X = windowSize.X - Config.SideSpace*2 };
+      Console.WriteLine($"new window size: {windowSize}\ndetermined window size: {actualSize}");
+      mainRender = LoadRenderTexture((int)actualSize.X, (int)actualSize.Y);
     }
   }
 }
