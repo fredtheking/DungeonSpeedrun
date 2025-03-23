@@ -1,23 +1,34 @@
-﻿using ImGuiNET;
+﻿using System.Numerics;
+using DungeonSpeedrun;
+using Raylib_cs;
 using rlImGui_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
 
-
-InitWindow(1280, 720, "Hello, Dungeon!");
+SetConfigFlags(ConfigFlags.ResizableWindow | ConfigFlags.VSyncHint);
+InitWindow((int)Config.Resolution.X, (int)Config.Resolution.Y, "Hello, Dungeon!");
 rlImGui.Setup();
 
+RenderTexture2D mainRender = LoadRenderTexture(1280, 720);
+
 while (!WindowShouldClose())
-{
+{ 
+  UpdateProcess.Go(mainRender); 
+  
   BeginDrawing();
   rlImGui.Begin();
-  ClearBackground(RayWhite);
-
-  ImGui.Begin("halo");
-  ImGui.Text("Hello, World!");
-  ImGui.End();
+  ClearBackground(Color.Black);
+  
+  ImGuiWindow.Render(mainRender);
   
   rlImGui.End();
+  
+  BeginTextureMode(mainRender);
+  ClearBackground(Color.DarkGray);
+  
+  RenderToTexture.Go(mainRender);
+  
+  EndTextureMode();
+  DrawTextureRec(mainRender.Texture, new(0, 0, mainRender.Texture.Width, -mainRender.Texture.Height), Vector2.Zero, Color.White);
   EndDrawing();
 }
 
