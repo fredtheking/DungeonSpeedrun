@@ -22,6 +22,10 @@ WindowHandler.RedoRenderTexture(ref mainRender);
 debug = true;
 #endif
 
+// Level Setup
+LevelGenerator lvl = new("level.txt");
+lvl.Generate(0);
+
 //Loop
 while (!WindowShouldClose())
 { 
