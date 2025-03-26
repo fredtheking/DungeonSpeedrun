@@ -48,11 +48,13 @@ public class PlayerController
     }
   }
 
-  public void Update()
+  public void Update(bool debug)
   {
-    Rectangle rect = new(Config.SideSpace.X, Config.SideSpace.Y, mainRender.Texture.Width, mainRender.Texture.Height);
+    Rectangle rectX = new(Config.SideSpace.X*2, 0, Config.Resolution.X, Config.Resolution.Y);
+    Rectangle rectY = new(Vector2.Zero, Config.Resolution.X, Config.Resolution.Y-Config.SideSpace.Y*2);
+    bool rectVerdict = debug ? CheckCollisionPointRec(GetMousePosition(), Config.State == WindowState.Width ? rectX : rectY) : true;
     
-    if (IsMouseButtonPressed(MouseButton.Left))
+    if (rectVerdict && IsMouseButtonPressed(MouseButton.Left) && !CatchCursor) 
       CatchMouseTrigger(true);
     if (IsKeyPressed(KeyboardKey.Escape))
       CatchMouseTrigger(false);
